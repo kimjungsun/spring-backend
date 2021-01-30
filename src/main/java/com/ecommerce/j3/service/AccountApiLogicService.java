@@ -10,16 +10,11 @@ import com.ecommerce.j3.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AccountApiLogicService implements CrudInterface<AccountApiRequest, AccountApiResponse> {
-
-    // 1. request data
-    // 2. account 생성
-    // 3. 생성된 데이터 -> return AccountApiResponse
-
+    // AccountRepository bean 등록
     private AccountRepository accountRepository;
 
     @Autowired
@@ -27,6 +22,23 @@ public class AccountApiLogicService implements CrudInterface<AccountApiRequest, 
         this.accountRepository = accountRepository;
     }
 
+    // Response 전달
+    private BodyData<AccountApiResponse> response(Account account){
+        AccountApiResponse accountApiResponse = AccountApiResponse.builder()
+                .email(account.getEmail())
+                .passwordHash(account.getPasswordHash())
+                .lastLogin(account.getLastLogin())
+                .accountType(account.getAccountType())
+                .build();
+
+        return BodyData.OK(accountApiResponse);
+    }
+
+    // 1. request data
+    // 2. account 생성
+    // 3. 생성된 데이터 -> return AccountApiResponse
+
+    // Create
     @Override
     public BodyData<AccountApiResponse> create(BodyData<AccountApiRequest> request) {
 
@@ -104,24 +116,6 @@ public class AccountApiLogicService implements CrudInterface<AccountApiRequest, 
 
         })
                 .orElseGet(()-> BodyData.ERROR("데이터 없음"));
-    }
-
-    private BodyData<AccountApiResponse> response(Account account){
-        AccountApiResponse accountApiResponse = AccountApiResponse.builder().
-                accountId(account.getAccountId()).
-                email(account.getEmail()).
-                passwordHash(account.getPasswordHash()).
-                firstName(account.getFirstName()).
-                lastName(account.getLastName()).
-                gender(account.getGender()).
-                birthday(account.getBirthday()).
-                phoneNumber(account.getPhoneNumber()).
-                registeredAt(account.getRegisteredAt()).
-                lastLogin(account.getLastLogin()).
-                accountType(account.getAccountType()).
-                build();
-
-        return BodyData.OK(accountApiResponse);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.ecommerce.j3.domain.network.request;
 
+import com.ecommerce.j3.domain.entity.Account;
 import com.ecommerce.j3.domain.entity.AccountType;
 import com.ecommerce.j3.domain.entity.GenderType;
 import lombok.*;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AccountApiRequest {
+public class AccountApiRequest{
     private Long accountId;
 
     private String email;
