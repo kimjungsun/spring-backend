@@ -9,9 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter @Setter
@@ -34,7 +32,7 @@ public class Account {
     private GenderType gender;
 
     @Column(columnDefinition = "VARCHAR")
-    @DateTimeFormat(pattern = "YYYY-MM-DD")
+    @DateTimeFormat(pattern = "yyy-MM-dd")
     private LocalDate birthday;
 
     private String phoneNumber;
