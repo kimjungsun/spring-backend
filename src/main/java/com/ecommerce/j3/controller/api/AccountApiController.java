@@ -1,24 +1,30 @@
 package com.ecommerce.j3.controller.api;
 
+import com.ecommerce.j3.domain.entity.Account;
 import com.ecommerce.j3.domain.network.BodyData;
 import com.ecommerce.j3.domain.network.request.AccountApiRequest;
 import com.ecommerce.j3.domain.network.response.AccountApiResponse;
+import com.ecommerce.j3.repository.AccountRepository;
 import com.ecommerce.j3.service.AccountApiLogicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
+
 @Api(tags = {"1. Account"})
 @Slf4j
 @RestController
 @RequestMapping("/api/accounts")
 public class AccountApiController implements CrudInterface<AccountApiRequest, AccountApiResponse> {
-    private AccountApiLogicService accountApiLogicService;
 
-    public AccountApiController(AccountApiLogicService accountApiLogicService){
-        this.accountApiLogicService = accountApiLogicService;
+    // Bean 등록
+    private AccountApiLogicService accountApiLogicService;
+    public AccountApiController(AccountApiLogicService accountApiLogicService){ this.accountApiLogicService = accountApiLogicService;
     }
+
 
     @ApiOperation(value = "회원 추가", notes = "회원을 추가한다.")
     @PostMapping("")

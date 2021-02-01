@@ -7,7 +7,6 @@ import com.ecommerce.j3.domain.network.request.AccountApiRequest;
 import com.ecommerce.j3.domain.network.response.AccountApiResponse;
 
 import com.ecommerce.j3.repository.AccountRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,11 +15,10 @@ import java.util.Optional;
 public class AccountApiLogicService implements CrudInterface<AccountApiRequest, AccountApiResponse> {
     // AccountRepository bean 등록
     private AccountRepository accountRepository;
-
-    @Autowired
     public AccountApiLogicService(AccountRepository accountRepository){
         this.accountRepository = accountRepository;
     }
+
 
     // Response 전달
     private BodyData<AccountApiResponse> response(Account account){

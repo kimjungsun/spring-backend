@@ -8,6 +8,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter @Setter
@@ -43,7 +47,32 @@ public class Account {
     @Column(columnDefinition = "ENUM('USER','SELLER','ADMIN')")
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
-//    @OneToMany
-//    @JoinColumn(name="account_id")
-//    private List<Watch> watchList;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<String> roles = new ArrayList<>();
+
+
+    public String getUsername() {
+        return email;
+    }
+
+
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+
+    public boolean isEnabled() {
+        return true;
+    }
 }
