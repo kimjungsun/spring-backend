@@ -1,5 +1,6 @@
 package com.ecommerce.j3.domain.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,56 +22,50 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountId;
-
     private String email;
+
+    @NotNull
     private String passwordHash;
+
+    @NotNull
     private String firstName;
+
+    @NotNull
     private String lastName;
 
-    @Column(columnDefinition = "ENUM('MALE','FEMALE')")
+    @Column(columnDefinition = "VARCHAR")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthday;
+
+    @NotNull
+    @Column(columnDefinition = "enum('MALE', 'FEMALE')")
     @Enumerated(EnumType.STRING)
     private GenderType gender;
 
-    @Column(columnDefinition = "VARCHAR")
-    @DateTimeFormat(pattern = "yyy-MM-dd")
-    private LocalDate birthday;
-
     private String phoneNumber;
 
+    @NotNull
+    @Column(columnDefinition = "enum('USER', 'SELLER', 'ADMIN')")
+    @Enumerated(EnumType.STRING)
+    private AccountType accountType;
+
+    @NotNull
     @CreationTimestamp
     private LocalDateTime registeredAt;
 
     private LocalDateTime lastLogin;
 
-    @Column(columnDefinition = "ENUM('USER','SELLER','ADMIN')")
-    @Enumerated(EnumType.STRING)
-    private AccountType accountType;
+    @OneToOne
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @Builder.Default
-    private List<String> roles = new ArrayList<>();
+    @JoinTable(schema = "SHOP",
+            name = "default_address",
+            joinColumns = @JoinColumn( name = "account_id"),
+            inverseJoinColumns = @JoinColumn( name = "address_id")
+    )
 
+    private Address default_address;
 
-    public String getUsername() {
-        return email;
-    }
+    @OneToMany(mappedBy = "account")
+    List<Address> addresses;
 
-
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-
-    public boolean isEnabled() {
-        return true;
-    }
 }

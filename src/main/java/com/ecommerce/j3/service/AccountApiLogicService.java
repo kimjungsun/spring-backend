@@ -8,10 +8,13 @@ import com.ecommerce.j3.domain.network.response.AccountApiResponse;
 
 import com.ecommerce.j3.repository.AccountRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Service
+@Validated
 public class AccountApiLogicService implements CrudInterface<AccountApiRequest, AccountApiResponse> {
     // AccountRepository bean 등록
     private AccountRepository accountRepository;
@@ -65,6 +68,7 @@ public class AccountApiLogicService implements CrudInterface<AccountApiRequest, 
     }
 
     @Override
+    @Valid
     public BodyData<AccountApiResponse> read(Long id) {
         // 1. id -> repository getOne / getById
         Optional<Account> optional = accountRepository.findById(id);

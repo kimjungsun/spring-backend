@@ -1,6 +1,9 @@
 package com.ecommerce.j3.domain.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -14,28 +17,27 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Accessors(chain = true)
-public class Payment {
+public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long paymentId;
+    private Long cartItemId;
 
     @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
+    @JoinColumn(name = "product_id")
+    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
 
-    @OneToOne
-    @JoinColumn(name = "orders_id")
-    private Order order;
+    private String sku;
 
-    private String code;
+    private Integer price;
 
-    @Column(columnDefinition = "enum('CARD', 'CASH')")
-    @Enumerated(EnumType.STRING)
-    private PaymentType type;
+    private Integer discountRate;
 
-    @Column(columnDefinition = "enum('OK', 'FAIL')")
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus status;
+    private Integer quantity;
+
+    private Integer active;
 
     @Column(columnDefinition = "TEXT")
     private String content;

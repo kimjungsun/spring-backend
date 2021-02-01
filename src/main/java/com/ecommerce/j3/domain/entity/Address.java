@@ -26,7 +26,10 @@ public class Address {
     private String address;
     private String roadAddress;
     private String city;
+
     private String province;
+
     private String country;
+
     private Integer zipCode;
 }

@@ -1,33 +1,33 @@
 package com.ecommerce.j3.domain.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity(name = "orders")
-@Getter
+@Entity @Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Accessors(chain = true)
-public class Order {
+public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ordersId;
+    private Long cartId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToMany(mappedBy="order",cascade = CascadeType.ALL)    // 01-18 Megan
-    public List<OrderItem> orderItems ;
-
+    @OneToMany(mappedBy="cart",cascade = CascadeType.PERSIST)    // 01-18 Megan
+    private List<CartItem> cartItems;
 
     private String sessionId;
 

@@ -9,6 +9,7 @@ import com.ecommerce.j3.service.AccountApiLogicService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -29,6 +30,7 @@ public class AccountApiController implements CrudInterface<AccountApiRequest, Ac
     @ApiOperation(value = "회원 추가", notes = "회원을 추가한다.")
     @PostMapping("")
     @Override
+    @Valid
     public BodyData<AccountApiResponse> create(@RequestBody BodyData<AccountApiRequest> request) {
         log.info("{}",request);
         return accountApiLogicService.create(request);

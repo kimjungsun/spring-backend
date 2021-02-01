@@ -22,17 +22,34 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "seller_id")
-    private Account account;
+    private Account seller;
 
+    @NonNull
     private String title;
+
+    @NonNull
     private String metaTitle;
+
+    @NonNull
     private String slug;
+
     private String sku;
-    private BigDecimal price;
-    private Float discountRate;
-    private Short quantity;
+
+    private Integer price;
+
+    private Integer discountRate;
+
+    private Integer quantity;
+
+    private String thumbnailPath;
+
+    private String imagePath;
+
+    @Column(columnDefinition = "TEXT")
+    private String content;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -41,10 +58,9 @@ public class Product {
     private LocalDateTime updatedAt;
 
     private LocalDateTime startsAt;
+
     private LocalDateTime endsAt;
 
-    @Column(columnDefinition = "TEXT")
-    private String content;
 
     @ManyToMany
     @JoinTable(
@@ -52,12 +68,13 @@ public class Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private Set<Category> categories = new HashSet<>();
+    private Set<Category> categories;
+
     @ManyToMany
     @JoinTable(
             name = "product_tag",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private Set<Tag> tags = new HashSet<>();
+    private Set<Tag> tags;
 }
