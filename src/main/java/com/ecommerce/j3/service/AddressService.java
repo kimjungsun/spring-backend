@@ -1,0 +1,49 @@
+package com.ecommerce.j3.service;
+
+import com.ecommerce.j3.controller.dto.AddressDto.AddressApiRequest;
+import com.ecommerce.j3.controller.dto.AddressDto.AddressApiResponse;
+import com.ecommerce.j3.domain.entity.Address;
+import com.ecommerce.j3.domain.mapper.AddressMapper;
+import com.ecommerce.j3.repository.AddressRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
+
+@Service
+//@Transactional(readOnly = true)
+@Transactional
+@RequiredArgsConstructor
+public class AddressService implements ServiceCrudInterface<AddressApiRequest, AddressApiResponse>{
+    private final AddressRepository addressRepository;
+    private final AddressMapper addressMapper;
+
+    @Override
+    public AddressApiResponse save(AddressApiRequest request){
+        Address address = addressMapper.toEntity(request);
+        addressRepository.save(address);
+        return addressMapper.toDto(address);
+    }
+
+    @Override
+    public AddressApiResponse update(AddressApiRequest request) {
+        Address addressFromDB = addressRepository.findById(request.getAddressId())
+                .orElseThrow(EntityNotFoundException::new);
+        addressMapper.updateFromDto(addressFromDB, request);
+        addressRepository.save(addressFromDB);
+        return addressMapper.toDto(addressFromDB);
+    }
+
+    @Override
+    public AddressApiResponse findOne(Long addressId){
+        Address addressFromDB = addressRepository.findById(addressId)
+                .orElseThrow(EntityNotFoundException::new);
+        return addressMapper.toDto(addressFromDB);
+    }
+
+    @Override
+    public void remove(Long id) {
+        addressRepository.deleteById(id);
+    }
+}
